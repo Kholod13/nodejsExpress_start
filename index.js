@@ -4,14 +4,20 @@ const express = require('express');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+//указываем папку в которой будут работать статичиские файлы (стили например)
+app.use(express.static('public'));
+
+//__dirname - константа которая указывает на полный путь текущей папки
 app.get('/', (req, res) => {
-    res.send('Home page');
+    res.render('index');
 })
 app.get('/about', (req, res) => {
-    res.send('About us page');
+    res.render('about');
 })
-app.get('/user/:username/:id', (req, res) => {
-    res.send(`User ID: ${req.params.id}, name: ${req.params.username}`);
+//передаем username внутрь шаблона(страницы)
+app.get('/user/:username', (req, res) => {
+    res.render('user', { username: req.params.username });
 })
 
 const PORT = 3000;
